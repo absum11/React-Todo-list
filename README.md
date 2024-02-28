@@ -1,8 +1,5 @@
-# React + Vite
+# A simple react Todo app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+the application works as a simple task reminder app, with the features of adding new tasks, checking once completed and deleting a task.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Learning credits: #webdevsimplified.com
