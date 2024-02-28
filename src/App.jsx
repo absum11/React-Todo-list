@@ -1,11 +1,12 @@
 import { useState } from "react";
 import "./styles.css";
 import NewTaskForm from "./components/NewTaskForm";
+import Tasklist from "./components/TaskList";
 
 export default function App() {
   const [todos, setTodos] = useState([]);
 
-  function addTodo(title){
+  function addTodo(title) {
     setTodos((currentTodos) => {
       return [
         ...currentTodos,
@@ -38,29 +39,11 @@ export default function App() {
     <>
       <NewTaskForm onSubmit={addTodo} />
       <h1 className="header">Todo list</h1>
-      <ul className="list">
-        {todos.length === 0 && "No task added"}
-        {todos.map((todo) => {
-          return (
-            <li key={todo.id}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={todo.completed}
-                  onChange={(e) => handleChecked(todo.id, e.target.checked)}
-                />
-                {todo.title}
-              </label>
-              <button
-                className="btn btn-danger"
-                onClick={() => onDeleteTask(todo.id)}
-              >
-                Delete
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <Tasklist
+        todos={todos}
+        handleChecked={handleChecked}
+        onDeleteTask={onDeleteTask}
+      />
     </>
   );
 }
