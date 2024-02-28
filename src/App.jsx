@@ -1,39 +1,42 @@
 import { useState } from "react";
 import "./styles.css";
+import NewTaskForm from "./components/NewTaskForm";
 
 export default function App() {
-  const [newTask, setNewTask] = useState("");
   const [todos, setTodos] = useState([]);
-  
-  // handle updating task list state
-  function handleSubmit(e) {
-    e.preventDefault(); //prevents page from refreshing
 
+  function addTodo(title){
     setTodos((currentTodos) => {
       return [
         ...currentTodos,
-        { id: crypto.randomUUID(), title: newTask, completed: false },
+        { id: crypto.randomUUID(), title, completed: false },
       ];
     });
-    setNewTask("")
   }
-  
 
+  // handle task check/uncheck
+  function handleChecked(id, completed) {
+    setTodos((currentTodos) => {
+      return currentTodos.map((todo) => {
+        if (todo.id === id) {
+          return { ...todo, completed };
+        }
+
+        return todo;
+      });
+    });
+  }
+
+  // handle deleteion of a task from task list
+  function onDeleteTask(id) {
+    setTodos((currentTodos) => {
+      return currentTodos.filter((todo) => todo.id !== id);
+    });
+  }
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="new-task-form">
-        <div className="form-row">
-          <label htmlFor="task">New Task</label>
-          <input
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            type="text"
-            id="task"
-          />
-        </div>
-        <button className="btn">Add</button>
-      </form>
+      <NewTaskForm onSubmit={addTodo} />
       <h1 className="header">Todo list</h1>
       <ul className="list">
         {todos.length === 0 && "No task added"}
@@ -41,12 +44,19 @@ export default function App() {
           return (
             <li key={todo.id}>
               <label>
-                <input type="checkbox" 
-                checked={todo.completed}
-                 />
+                <input
+                  type="checkbox"
+                  checked={todo.completed}
+                  onChange={(e) => handleChecked(todo.id, e.target.checked)}
+                />
                 {todo.title}
               </label>
-              <button className="btn btn-danger">Delete</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => onDeleteTask(todo.id)}
+              >
+                Delete
+              </button>
             </li>
           );
         })}
